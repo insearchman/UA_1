@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class RotateObject : MonoBehaviour
 {
-    [SerializeField] private float _rotateSpeed;
+    private const float RotateSpeed = 50;
 
     private void Update()
     {
-        transform.Rotate(Vector3.forward * _rotateSpeed * Time.deltaTime);
+        transform.Rotate(Vector3.forward * RotateSpeed * Time.deltaTime);
     }
 }

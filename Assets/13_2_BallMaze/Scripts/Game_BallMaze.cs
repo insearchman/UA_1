@@ -20,20 +20,21 @@ public class Game_BallMaze : MonoBehaviour
 
     private void Update()
     {
-        CheckInput();
+        InputHandler();
     }
 
     private void FixedUpdate()
     {
-        InputHandler();
+        ApplyRotation();
     }
-    private void CheckInput()
+
+    private void InputHandler()
     {
         _horizontalInput = Input.GetAxis(HorizontalAxis);
         _verticalInput = Input.GetAxis(VerticalAxis);
     }
 
-    private void InputHandler()
+    private void ApplyRotation()
     {
         if(Mathf.Abs(_horizontalInput) > DeadZone || Mathf.Abs(_verticalInput) > DeadZone)
         {

@@ -5,11 +5,11 @@ public class AutoBalance : MonoBehaviour
     private const float ReturnStrength = 100f;
     private const float MinAngle = 0.5f;
 
-    private Rigidbody _rb;
+    private Rigidbody _rigidbody;
 
     private void Start()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate()
@@ -21,7 +21,7 @@ public class AutoBalance : MonoBehaviour
             float returnTorque = -currentTilt * ReturnStrength * Time.fixedDeltaTime;
             returnTorque = Mathf.Clamp(returnTorque, -ReturnStrength, ReturnStrength);
 
-            _rb.AddTorque(returnTorque, 0, 0, ForceMode.Force);
+            _rigidbody.AddTorque(returnTorque, 0, 0, ForceMode.Force);
         }
     }
 }

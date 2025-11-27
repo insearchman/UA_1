@@ -7,11 +7,11 @@ public class Game_BallChallenge : MonoBehaviour
     private const string WinGameText = "You WIN";
     private const string DefeatGameText = "You DEFEAT";
 
+    private const float GameTime = 60;
+
     [SerializeField] private TextMeshProUGUI _gameTimerText;
     [SerializeField] private TextMeshProUGUI _gameResultText;
     [SerializeField] private Player _player;
-
-    [SerializeField] private float GameTime = 60;
 
     private CoinsManager _coinsManager;
 
@@ -47,12 +47,13 @@ public class Game_BallChallenge : MonoBehaviour
     private void UpdateGameTimer()
     {
         _currentGameTime -= Time.deltaTime;
-        _gameTimerText.text = _currentGameTime.ToString("0");
 
         if (_currentGameTime < 0)
         {
             DefeatGame();
         }
+
+        _gameTimerText.text = _currentGameTime.ToString("0");
     }
 
     private void StopGame()

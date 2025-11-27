@@ -1,35 +1,32 @@
 using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
-    private Rigidbody _rigidbody;
-
     private const string HorizontalAxis = "Horizontal";
     private const string VerticalAxis = "Vertical";
     private const KeyCode JumpKey = KeyCode.Space;
+
+    private const float MoveForce = 600;
+    private const float RotateSpeed = 2;
+    private const float RotateForce = 90;
+    private const float JumpForce = 1000;
     private const float DeadZone = 0.05f;
 
-    [SerializeField] private float _moveForce;
-    [SerializeField] private float _rotateForce;
-    [SerializeField] private float _jumpForce;
+    private Rigidbody _rigidbody;
 
-    private float _moveInput;
-    private float _turnInput;
+    private float _verticalInput;
+    private float _horizontalInput;
+
     private bool _isJump;
     private bool _isGrounded;
-    private Vector3 horizontalForward;
-    private Vector3 _moveDirection;
 
-    private Vector3 _cachedForward;
+    public  Vector3 _cachedForward { get; private set; }
     private float _currentYRotation;
-    public float maxAngularVelocity = 10f;
 
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        _rigidbody.maxAngularVelocity = maxAngularVelocity;
 
         _currentYRotation = transform.eulerAngles.y;
         _cachedForward = Quaternion.Euler(0f, _currentYRotation, 0f) * Vector3.forward;
@@ -37,59 +34,51 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (IsGrounded())
-        {
-            _moveInput = Input.GetAxisRaw(VerticalAxis);
-            _turnInput = Input.GetAxisRaw(HorizontalAxis);
-
-            if (_isJump == false)
-                _isJump = Input.GetKeyDown(JumpKey);
-        }
-
-        HandleInput();
+        InputHandler();
     }
 
     private void FixedUpdate()
     {
-        if (_isJump)
-        {
-            _isJump = false;
-            _rigidbody.AddForce(Vector3.up * _jumpForce, ForceMode.Impulse);
-        }
-
+        ApplyJump();
         ApplyForces();
+    }
 
-        if (Math.Abs(_turnInput) > DeadZone)
+    private void InputHandler()
+    {
+        if (IsGrounded())
         {
-            Vector3 turnTorque = Vector3.up * _turnInput;
-            _moveDirection = turnTorque;
-            _rigidbody.AddTorque(turnTorque);
+            _verticalInput = Input.GetAxisRaw(VerticalAxis);
+            _horizontalInput = Input.GetAxisRaw(HorizontalAxis);
+
+            if (_isJump == false)
+                _isJump = Input.GetKeyDown(JumpKey);
         }
     }
 
-    private void HandleInput()
+    private void ApplyJump()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(horizontalInput) > 0.1f)
+        if (_isJump)
         {
-            _currentYRotation += horizontalInput * _rotateForce * Time.deltaTime;
-            _cachedForward = Quaternion.Euler(0f, _currentYRotation, 0f) * Vector3.forward;
+            _isJump = false;
+            _rigidbody.AddForce(Vector3.up * JumpForce, ForceMode.Impulse);
         }
     }
 
     private void ApplyForces()
     {
-        float verticalInput = Input.GetAxis("Vertical");
-        if (Mathf.Abs(verticalInput) > 0.1f)
+        if (Mathf.Abs(_verticalInput) > DeadZone)
         {
-            Vector3 moveForceVector = _cachedForward * verticalInput * _moveForce;
-            _rigidbody.AddForce(moveForceVector, ForceMode.Force);
+            Vector3 moveForce = _cachedForward * _verticalInput * MoveForce;
+            _rigidbody.AddForce(moveForce, ForceMode.Force);
         }
 
-        if (Mathf.Abs(verticalInput) > 0.1f)
+        if (Math.Abs(_horizontalInput) > DeadZone)
         {
-            Vector3 torque = Vector3.Cross(Vector3.up, _cachedForward) * verticalInput * _moveForce * 0.5f;
-            _rigidbody.AddTorque(torque, ForceMode.Force);
+            _currentYRotation += _horizontalInput * RotateSpeed;
+            _cachedForward = Quaternion.Euler(0f, _currentYRotation, 0f) * Vector3.forward;
+
+            Vector3 rotateForce = new Vector3(0, _horizontalInput * RotateForce, 0);
+            _rigidbody.AddTorque(rotateForce);
         }
     }
 
@@ -97,14 +86,17 @@ public class Player : MonoBehaviour
     {
         _isGrounded = true;
     }
+
     private void OnCollisionStay(Collision collision)
     {
         _isGrounded = true;
     }
+
     private void OnCollisionExit(Collision collision)
     {
         _isGrounded = false;
     }
+
     private bool IsGrounded()
     {
         return _isGrounded;

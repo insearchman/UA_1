@@ -531,7 +531,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: You Defeat!
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1139,7 +1139,6 @@ MonoBehaviour:
   _moveForce: 500
   _rotateForce: 100
   _jumpForce: 1000
-  maxAngularVelocity: 10
 --- !u!54 &1153998192
 Rigidbody:
   m_ObjectHideFlags: 0
