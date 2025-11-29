@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-[RequireComponent (typeof(CoinsManager))]
+[RequireComponent (typeof(CoinsSpawner))]
 public class Game_BallChallenge : MonoBehaviour
 {
     private const string WinGameText = "You WIN";
@@ -13,15 +13,15 @@ public class Game_BallChallenge : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _gameResultText;
     [SerializeField] private Player _player;
 
-    private CoinsManager _coinsManager;
+    private CoinsSpawner _coinsManager;
 
     private float _currentGameTime;
     private bool _isPlay;
 
     private void Awake()
     {
-        _coinsManager = GetComponent<CoinsManager>();
-        _coinsManager.OnAllCointsCollected += WinGame;
+        _coinsManager = GetComponent<CoinsSpawner>();
+        _player.OnCoinCollect += CoinCollectHandler;
     }
 
     private void Start()
@@ -62,6 +62,14 @@ public class Game_BallChallenge : MonoBehaviour
         _player.enabled = false;
     }
 
+    private void CoinCollectHandler()
+    {
+        if(_player.CoinsWallet >= _coinsManager.AllCoins.Count)
+        {
+            WinGame();
+        }
+    }
+
     private void WinGame()
     {
         StopGame();
@@ -73,4 +81,6 @@ public class Game_BallChallenge : MonoBehaviour
         StopGame();
         _gameResultText.text = DefeatGameText;
     }
+
+
 }

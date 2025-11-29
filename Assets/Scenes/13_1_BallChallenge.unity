@@ -439,7 +439,6 @@ MonoBehaviour:
   _gameTimerText: {fileID: 108675766}
   _gameResultText: {fileID: 382943557}
   _player: {fileID: 1153998191}
-  GameTime: 60
 --- !u!114 &358445112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1002,13 +1001,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961739749}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.2164396, y: -0, z: -0, w: 0.97629607}
-  m_LocalPosition: {x: 0.06, y: 4, z: -2.8}
+  m_LocalRotation: {x: 0.14780942, y: 0, z: 0, w: 0.9890159}
+  m_LocalPosition: {x: 0, y: 4, z: -3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 25, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 17, y: 0, z: 0}
 --- !u!114 &961739754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1101,6 +1100,7 @@ GameObject:
   - component: {fileID: 1153998190}
   - component: {fileID: 1153998191}
   - component: {fileID: 1153998192}
+  - component: {fileID: 1153998193}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1136,9 +1136,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b202506baed8fb4da329da8cbc2a5f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveForce: 500
-  _rotateForce: 100
-  _jumpForce: 1000
 --- !u!54 &1153998192
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1166,6 +1163,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1153998193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1153998189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 891f75589ca3fc841aec9350254bc10c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1160234425
 GameObject:
   m_ObjectHideFlags: 0

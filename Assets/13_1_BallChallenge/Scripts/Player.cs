@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody), typeof(CoinCollector))]
 public class Player : MonoBehaviour
 {
     private const string HorizontalAxis = "Horizontal";
@@ -15,6 +16,9 @@ public class Player : MonoBehaviour
 
     private Rigidbody _rigidbody;
 
+    private CoinCollector _coinCollector;
+    public event Action OnCoinCollect;
+
     private float _verticalInput;
     private float _horizontalInput;
 
@@ -24,9 +28,14 @@ public class Player : MonoBehaviour
     public  Vector3 _cachedForward { get; private set; }
     private float _currentYRotation;
 
+    public int CoinsWallet {  get; private set; }
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+
+        _coinCollector = GetComponent<CoinCollector>();
+        _coinCollector.OnCointCollect += AddCoin;
 
         _currentYRotation = transform.eulerAngles.y;
         _cachedForward = Quaternion.Euler(0f, _currentYRotation, 0f) * Vector3.forward;
@@ -80,6 +89,12 @@ public class Player : MonoBehaviour
             Vector3 rotateForce = new Vector3(0, _horizontalInput * RotateForce, 0);
             _rigidbody.AddTorque(rotateForce);
         }
+    }
+
+    private void AddCoin()
+    {
+        CoinsWallet++;
+        OnCoinCollect?.Invoke();
     }
 
     private void OnCollisionEnter(Collision collision)
