@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody), typeof(CoinCollector))]
-public class Player : MonoBehaviour
+public class Player_15 : MonoBehaviour
 {
     private const string HorizontalAxis = "Horizontal";
     private const string VerticalAxis = "Vertical";

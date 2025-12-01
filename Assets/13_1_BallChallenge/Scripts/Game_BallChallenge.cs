@@ -11,7 +11,7 @@ public class Game_BallChallenge : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _gameTimerText;
     [SerializeField] private TextMeshProUGUI _gameResultText;
-    [SerializeField] private Player _player;
+    [SerializeField] private Player_15 _player;
 
     private CoinsSpawner _coinsManager;
 
