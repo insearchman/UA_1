@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Modul_15
+namespace Modul_17
 {
     public class CameraController
     {
