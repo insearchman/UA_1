@@ -1,27 +1,30 @@
 using UnityEngine;
 
-public class AutoBalance : MonoBehaviour
+namespace Modul_13_1
 {
-    private const float ReturnStrength = 100f;
-    private const float MinAngle = 0.5f;
-
-    private Rigidbody _rigidbody;
-
-    private void Start()
+    public class AutoBalance : MonoBehaviour
     {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
+        private const float ReturnStrength = 100f;
+        private const float MinAngle = 0.5f;
 
-    private void FixedUpdate()
-    {
-        float currentTilt = transform.eulerAngles.x;
+        private Rigidbody _rigidbody;
 
-        if (Mathf.Abs(currentTilt) > MinAngle)
+        private void Start()
         {
-            float returnTorque = -currentTilt * ReturnStrength * Time.fixedDeltaTime;
-            returnTorque = Mathf.Clamp(returnTorque, -ReturnStrength, ReturnStrength);
+            _rigidbody = GetComponent<Rigidbody>();
+        }
 
-            _rigidbody.AddTorque(returnTorque, 0, 0, ForceMode.Force);
+        private void FixedUpdate()
+        {
+            float currentTilt = transform.eulerAngles.x;
+
+            if (Mathf.Abs(currentTilt) > MinAngle)
+            {
+                float returnTorque = -currentTilt * ReturnStrength * Time.fixedDeltaTime;
+                returnTorque = Mathf.Clamp(returnTorque, -ReturnStrength, ReturnStrength);
+
+                _rigidbody.AddTorque(returnTorque, 0, 0, ForceMode.Force);
+            }
         }
     }
 }

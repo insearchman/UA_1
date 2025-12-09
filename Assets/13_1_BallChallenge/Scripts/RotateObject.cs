@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class RotateObject : MonoBehaviour
+namespace Modul_13_1
 {
-    private const float RotateSpeed = 50;
-
-    private void Update()
+    public class RotateObject : MonoBehaviour
     {
-        transform.Rotate(Vector3.forward * RotateSpeed * Time.deltaTime);
+        private const float RotateSpeed = 50;
+
+        private void Update()
+        {
+            transform.Rotate(Vector3.forward * RotateSpeed * Time.deltaTime);
+        }
     }
 }

@@ -1,48 +1,51 @@
 using UnityEngine;
 
-public class CameraFollower : MonoBehaviour
+namespace Modul_13_1
 {
-    private const float DeadZone = 0.05f;
-
-    [SerializeField] private Transform _target;
-
-    private Rigidbody targetRigidbody;
-
-    private Vector3 _offset;
-    private Vector3 _defautAngle;
-    private float _currentCameraRotationY;
-    private Vector3 _lastValidForwardDirection;
-
-    private void Start()
+    public class CameraFollower : MonoBehaviour
     {
-        targetRigidbody = _target.GetComponent<Rigidbody>();
+        private const float DeadZone = 0.05f;
 
-        _offset = transform.position - _target.transform.position;
-        _defautAngle.x = transform.rotation.eulerAngles.x;
-        _lastValidForwardDirection = _target.forward;
-    }
+        [SerializeField] private Transform _target;
 
-    private void Update()
-    {
-        FollowTarget();
-    }
+        private Rigidbody targetRigidbody;
 
-    private void FollowTarget()
-    {
-        if (targetRigidbody.velocity.magnitude > DeadZone)
+        private Vector3 _offset;
+        private Vector3 _defautAngle;
+        private float _currentCameraRotationY;
+        private Vector3 _lastValidForwardDirection;
+
+        private void Start()
         {
-            _lastValidForwardDirection = targetRigidbody.velocity.normalized;
+            targetRigidbody = _target.GetComponent<Rigidbody>();
+
+            _offset = transform.position - _target.transform.position;
+            _defautAngle.x = transform.rotation.eulerAngles.x;
+            _lastValidForwardDirection = _target.forward;
         }
 
-        float targetYRotation = Mathf.Atan2(_lastValidForwardDirection.x, _lastValidForwardDirection.z) * Mathf.Rad2Deg;
+        private void Update()
+        {
+            FollowTarget();
+        }
 
-        _currentCameraRotationY = Mathf.LerpAngle(_currentCameraRotationY, targetYRotation, Time.deltaTime);
+        private void FollowTarget()
+        {
+            if (targetRigidbody.velocity.magnitude > DeadZone)
+            {
+                _lastValidForwardDirection = targetRigidbody.velocity.normalized;
+            }
 
-        Quaternion rotation = Quaternion.Euler(0, _currentCameraRotationY, 0);
-        Vector3 cameraPosition = _target.position + rotation * _offset;
+            float targetYRotation = Mathf.Atan2(_lastValidForwardDirection.x, _lastValidForwardDirection.z) * Mathf.Rad2Deg;
 
-        transform.position = cameraPosition;
-        transform.LookAt(_target.position);
-        transform.rotation = transform.rotation * Quaternion.Euler(-_defautAngle);
+            _currentCameraRotationY = Mathf.LerpAngle(_currentCameraRotationY, targetYRotation, Time.deltaTime);
+
+            Quaternion rotation = Quaternion.Euler(0, _currentCameraRotationY, 0);
+            Vector3 cameraPosition = _target.position + rotation * _offset;
+
+            transform.position = cameraPosition;
+            transform.LookAt(_target.position);
+            transform.rotation = transform.rotation * Quaternion.Euler(-_defautAngle);
+        }
     }
 }

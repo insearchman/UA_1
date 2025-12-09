@@ -1,24 +1,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinsSpawner : MonoBehaviour
+namespace Modul_13_1
 {
-    [SerializeField] private Coin _coinPrefab;
-    [SerializeField] private List<Transform> _coinSpawnerPoint;
-
-    public List<Coin> AllCoins {  get; private set; }
-
-    private void Awake()
+    public class CoinsSpawner : MonoBehaviour
     {
-        AllCoins = new();
-    }
+        [SerializeField] private Coin _coinPrefab;
+        [SerializeField] private List<Transform> _coinSpawnerPoint;
 
-    public void GenerateCoins()
-    {
-        for (int i = 0; i < _coinSpawnerPoint.Count; i++)
+        public List<Coin> AllCoins { get; private set; }
+
+        private void Awake()
         {
-            Coin current = Instantiate(_coinPrefab, _coinSpawnerPoint[i]);
-            AllCoins.Add(current);
+            AllCoins = new();
+        }
+
+        public void GenerateCoins()
+        {
+            for (int i = 0; i < _coinSpawnerPoint.Count; i++)
+            {
+                Coin current = Instantiate(_coinPrefab, _coinSpawnerPoint[i]);
+                AllCoins.Add(current);
+            }
         }
     }
 }

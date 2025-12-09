@@ -1,121 +1,123 @@
-using System;
 using TMPro;
 using UnityEngine;
 
-[RequireComponent (typeof(Border))]
-public class Game_JumpingLight : MonoBehaviour
+namespace Modul_9
 {
-    private const KeyCode RestartKey = KeyCode.Space;
-    private const KeyCode JumpUpKey = KeyCode.UpArrow;
-    private const KeyCode JumpLeftKey = KeyCode.LeftArrow;
-    private const KeyCode JumpRightKey = KeyCode.RightArrow;
-
-    private const string WinText = "WIN";
-    private const string DefeatText = "DEFEAT";
-
-    [SerializeField] private Ball _ball;
-    [SerializeField] private TextMeshProUGUI _score;
-    [SerializeField] private TextMeshProUGUI _result;
-
-    [SerializeField] private int _scoreToWin = 1000;
-    [SerializeField] private int _sideJumpMultiplier = 10;
-
-    private Border _borders;
-
-    private bool _isRuning;
-
-    private void Awake()
+    [RequireComponent(typeof(Border))]
+    public class Game_JumpingLight : MonoBehaviour
     {
-        _borders = GetComponent<Border>();
-    }
+        private const KeyCode RestartKey = KeyCode.Space;
+        private const KeyCode JumpUpKey = KeyCode.UpArrow;
+        private const KeyCode JumpLeftKey = KeyCode.LeftArrow;
+        private const KeyCode JumpRightKey = KeyCode.RightArrow;
 
-    void Start()
-    {
-        StartGame();
-    }
+        private const string WinText = "WIN";
+        private const string DefeatText = "DEFEAT";
 
-    void Update()
-    {
-        if (Input.GetKeyDown(RestartKey))
-            StartGame();
+        [SerializeField] private Ball _ball;
+        [SerializeField] private TextMeshProUGUI _score;
+        [SerializeField] private TextMeshProUGUI _result;
 
-        if (_isRuning == false)
-            return;
+        [SerializeField] private int _scoreToWin = 1000;
+        [SerializeField] private int _sideJumpMultiplier = 10;
 
-        JumpHandler();
+        private Border _borders;
 
-        if (GetScore() >= _scoreToWin)
-            WinGame();
+        private bool _isRuning;
 
-        if (_borders.IsHitWith(_ball))
-            StopGame();
-    }
-
-    private void StartGame()
-    {
-        _ball.ResetBallState();
-
-        _result.text = "";
-        _score.text = "";
-
-        _isRuning = true;
-    }
-
-    private void StopGame()
-    {
-        _ball.gameObject.SetActive(false);
-
-        _isRuning = false;
-
-        _result.text = DefeatText;
-
-        Debug.Log($"Вы проиграли со счётом: {GetScore()}");
-    }
-
-    private void WinGame()
-    {
-        _ball.SetKinematic(true);
-
-        _isRuning = false;
-
-        _result.text = WinText;
-
-        Debug.Log("Вы победили!");
-    }
-
-    private int GetScore()
-    {
-        return _ball.UpJumpCount + _ball.SideJumpCount * _sideJumpMultiplier;
-    }
-
-    private void JumpHandler()
-    {
-        if (Input.anyKeyDown)
+        private void Awake()
         {
-            if (Input.GetKeyDown(JumpUpKey))
-            {
-                Jump(JumpDirection.Up);
-            }
-
-            if (Input.GetKeyDown(JumpLeftKey))
-            {
-                Jump(JumpDirection.Left);
-            }
-
-            if (Input.GetKeyDown(JumpRightKey))
-            {
-                Jump(JumpDirection.Right);
-            }
-
-            _score.text = GetScore().ToString();
+            _borders = GetComponent<Border>();
         }
-    }
 
-    private void Jump(JumpDirection jumpDirection)
-    {
-        if (_ball.IsKinematic)
-            _ball.SetKinematic(false);
+        void Start()
+        {
+            StartGame();
+        }
 
-        _ball.Jump(jumpDirection);
+        void Update()
+        {
+            if (Input.GetKeyDown(RestartKey))
+                StartGame();
+
+            if (_isRuning == false)
+                return;
+
+            JumpHandler();
+
+            if (GetScore() >= _scoreToWin)
+                WinGame();
+
+            if (_borders.IsHitWith(_ball))
+                StopGame();
+        }
+
+        private void StartGame()
+        {
+            _ball.ResetBallState();
+
+            _result.text = "";
+            _score.text = "";
+
+            _isRuning = true;
+        }
+
+        private void StopGame()
+        {
+            _ball.gameObject.SetActive(false);
+
+            _isRuning = false;
+
+            _result.text = DefeatText;
+
+            Debug.Log($"Вы проиграли со счётом: {GetScore()}");
+        }
+
+        private void WinGame()
+        {
+            _ball.SetKinematic(true);
+
+            _isRuning = false;
+
+            _result.text = WinText;
+
+            Debug.Log("Вы победили!");
+        }
+
+        private int GetScore()
+        {
+            return _ball.UpJumpCount + _ball.SideJumpCount * _sideJumpMultiplier;
+        }
+
+        private void JumpHandler()
+        {
+            if (Input.anyKeyDown)
+            {
+                if (Input.GetKeyDown(JumpUpKey))
+                {
+                    Jump(JumpDirection.Up);
+                }
+
+                if (Input.GetKeyDown(JumpLeftKey))
+                {
+                    Jump(JumpDirection.Left);
+                }
+
+                if (Input.GetKeyDown(JumpRightKey))
+                {
+                    Jump(JumpDirection.Right);
+                }
+
+                _score.text = GetScore().ToString();
+            }
+        }
+
+        private void Jump(JumpDirection jumpDirection)
+        {
+            if (_ball.IsKinematic)
+                _ball.SetKinematic(false);
+
+            _ball.Jump(jumpDirection);
+        }
     }
 }

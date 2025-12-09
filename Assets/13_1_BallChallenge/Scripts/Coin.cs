@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class Coin : MonoBehaviour
+namespace Modul_13_1
 {
-    public void CollectCoin()
+    public class Coin : MonoBehaviour
     {
-        Destroy(gameObject);
+        public void CollectCoin()
+        {
+            Destroy(gameObject);
+        }
     }
 }

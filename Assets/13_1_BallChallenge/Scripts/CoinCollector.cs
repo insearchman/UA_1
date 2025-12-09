@@ -1,19 +1,21 @@
 using System;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-public class CoinCollector : MonoBehaviour
+namespace Modul_13_1
 {
-    public event Action OnCointCollect;
-
-    private void OnTriggerEnter(Collider other)
+    public class CoinCollector : MonoBehaviour
     {
-        Coin coin = other.transform.GetComponent<Coin>();
+        public event Action OnCointCollect;
 
-        if (coin != null)
+        private void OnTriggerEnter(Collider other)
         {
-            coin.CollectCoin();
-            OnCointCollect?.Invoke();
+            Coin coin = other.transform.GetComponent<Coin>();
+
+            if (coin != null)
+            {
+                coin.CollectCoin();
+                OnCointCollect?.Invoke();
+            }
         }
     }
 }
