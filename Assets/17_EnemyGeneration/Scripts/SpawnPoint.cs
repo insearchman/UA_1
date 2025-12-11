@@ -18,19 +18,20 @@ namespace Modul_17
 
     public class SpawnPoint : MonoBehaviour
     {
-        [SerializeField] private BehaviourController _enemyPrefab;
+        [SerializeField] private Enemy _enemyPrefab;
+        [SerializeField] private PatrolArea _patrolArea;
 
         [SerializeField] private IdleBehaviourTypes _idleBehaviour;
         [SerializeField] private ActiveBehaviourTypes _activeBehaviour;
 
-        private void Awake()
+        private void Start()
         {
             SpawnEnemy();
         }
 
         private void SpawnEnemy()
         {
-            BehaviourController enemy = Instantiate(_enemyPrefab, transform.position + _enemyPrefab.transform.localPosition, Quaternion.identity);
+            Enemy enemy = Instantiate(_enemyPrefab, transform.position + _enemyPrefab.transform.localPosition, Quaternion.identity);
             enemy.SetBehaviours(_idleBehaviour, _activeBehaviour);
         }
     }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3486388725737503092}
   - component: {fileID: 7310519745526389384}
   - component: {fileID: 7671808664983953526}
-  - component: {fileID: 3595574331235583843}
   - component: {fileID: 1118533430022088684}
   - component: {fileID: 8422983618316650329}
   - component: {fileID: 8626624959739709036}
@@ -109,18 +108,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 3
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &3595574331235583843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2490191617006698938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5225830154ef13142b3cbf9e2a940281, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!143 &1118533430022088684
 CharacterController:
   m_ObjectHideFlags: 0
@@ -171,5 +158,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d921937a73e4a5499311f14ccb0ad2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Patrol: {fileID: 8662889013986556968, guid: b6307f9572edc9142b2cdd54450cb7e8, type: 3}
   _deathParticle: {fileID: 2056471247909343824, guid: fd001d6b0382daf488a64ead4b198614,
     type: 3}

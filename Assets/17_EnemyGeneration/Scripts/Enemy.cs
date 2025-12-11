@@ -2,63 +2,56 @@ using UnityEngine;
 
 namespace Modul_17
 {
-    [RequireComponent(typeof(BehaviourController), typeof(Mover))]
+    [RequireComponent(typeof(Mover))]
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] private ParticleSystem _deathParticle;
-
-        private BehaviourController _behaviourController;
-        private EnemyBehaviour _idleAction;
-        private EnemyBehaviour _activeAction;
-
-        private Player _player = null;
-        private Mover _mover;
-
-        private Vector3 currentDirectionToMove;
-
+        public Player Player {  get; private set; }
+        public PatrolArea Area { get; private set; }
+        public Mover Mover { get; private set; }
         public float WalkingSpeed { get; private set; } = 2f;
         public float RotationSpeed { get; private set; } = 500f;
 
+        [SerializeField] private ParticleSystem _deathParticle;
+
+        private BehaviourController _behaviourController;
+        private IBehaviour _idleAction;
+        private IBehaviour _activeAction;
+
         private void Awake()
         {
-            _behaviourController = GetComponent<BehaviourController>();
-            _mover = GetComponent<Mover>();
-        }
+            _behaviourController = new BehaviourController();
+            Mover = GetComponent<Mover>();
 
-        private void Start()
-        {
-            _idleAction = _behaviourController.IdleBehaviour;
-            _activeAction = _behaviourController.ActiveBehaviour;
+            Area = FindAnyObjectByType<PatrolArea>();
         }
 
         private void Update()
         {
-            if (_player == null)
+            if (Player == null)
             {
-                Action(_idleAction);
+                _idleAction.Update();
             }
             else
             {
-                Action(_activeAction);
+                _activeAction.Update();
             }
         }
 
-        private void Action(EnemyBehaviour action)
+        public void SetBehaviours(IdleBehaviourTypes idle, ActiveBehaviourTypes action)
         {
-            switch (action)
+            _idleAction = _behaviourController.GetIdleBehaviour(idle, this);
+            _activeAction = _behaviourController.GetActiveBehaviour(action, this);
+        }
+
+        public void Die()
+        {
+            if (_deathParticle != null)
             {
-                case ISimpleMovable simpleMovable:
-                    currentDirectionToMove = simpleMovable.GetDirectionToMove();
-                    _mover.MoveCharacter(currentDirectionToMove, WalkingSpeed, RotationSpeed);
-                    break;
-                case ITargetMovable targetMovable:
-                    currentDirectionToMove = targetMovable.GetDirectionToMove(_player.gameObject);
-                    _mover.MoveCharacter(currentDirectionToMove, WalkingSpeed, RotationSpeed);
-                    break;
-                case IEffectAction simpleAction:
-                    simpleAction.Action(_deathParticle);
-                    break;
+                ParticleSystem effect = Instantiate(_deathParticle, transform.position, _deathParticle.transform.rotation);
+                effect.transform.SetParent(null);
             }
+
+            Destroy(gameObject);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -67,7 +60,7 @@ namespace Modul_17
 
             if (player != null)
             {
-                _player = player;
+                Player = player;
             }
         }
 
@@ -77,7 +70,7 @@ namespace Modul_17
 
             if (player != null)
             {
-                _player = null;
+                Player = null;
             }
         }
     }

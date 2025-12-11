@@ -2,44 +2,52 @@ using UnityEngine;
 
 namespace Modul_17
 {
-    public class BehaviourController : MonoBehaviour
+    public class BehaviourController
     {
-        public EnemyBehaviour IdleBehaviour { get; private set; }
-        public EnemyBehaviour ActiveBehaviour { get; private set; }
-
-        public void SetBehaviours(IdleBehaviourTypes idleBehaviour, ActiveBehaviourTypes activeBehaviour)
+        public IBehaviour GetIdleBehaviour(IdleBehaviourTypes idleBehaviour, Enemy enemy)
         {
+            IBehaviour behaviour = null;
+
             switch (idleBehaviour)
             {
                 case IdleBehaviourTypes.Stay:
-                    IdleBehaviour = gameObject.AddComponent<Stay>();
+                    behaviour = new Stay();
                     break;
                 case IdleBehaviourTypes.Patrol:
-                    IdleBehaviour = gameObject.AddComponent<Patrol>();
+                    behaviour = new Patrol(enemy.Mover, enemy.Area);
                     break;
                 case IdleBehaviourTypes.Roam:
-                    IdleBehaviour = gameObject.AddComponent<Roam>();
+                    behaviour = new Roam(enemy.Mover);
                     break;
                 default:
                     Debug.Log("SetBehaviours: Not valid IdleBehaviour");
                     break;
             }
 
+            return behaviour;
+        }
+
+        public IBehaviour GetActiveBehaviour(ActiveBehaviourTypes activeBehaviour, Enemy enemy)
+        {
+            IBehaviour behaviour = null;
+
             switch (activeBehaviour)
             {
                 case ActiveBehaviourTypes.RunAway:
-                    ActiveBehaviour = gameObject.AddComponent<RunAway>();
+                    behaviour = new RunAway(enemy.Mover);
                     break;
                 case ActiveBehaviourTypes.Pursue:
-                    ActiveBehaviour = gameObject.AddComponent<Pursue>();
+                    behaviour = new Pursue(enemy.Mover);
                     break;
                 case ActiveBehaviourTypes.Die:
-                    ActiveBehaviour = gameObject.AddComponent<Die>();
+                    behaviour = new Die(enemy.Mover);
                     break;
                 default:
                     Debug.Log("SetBehaviours: Not valid ActionBehaviour");
                     break;
             }
+
+            return behaviour;
         }
     }
 }
