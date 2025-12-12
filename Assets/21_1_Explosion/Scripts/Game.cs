@@ -1,73 +1,59 @@
+using Cinemachine;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Modul_21_1
 {
-    [RequireComponent(typeof(DragDrop), typeof(ExplosionCaster), typeof(CameraSwitcher))]
     public class Game : MonoBehaviour
     {
         private const KeyCode DragDropKey = KeyCode.Mouse0;
         private const KeyCode ExplosionKey = KeyCode.Mouse1;
         private const KeyCode CameraSwitchKey = KeyCode.Space;
 
-        private DragDrop _draDropMethod;
-        private ExplosionCaster _explosion;
-        private CameraSwitcher _cameraSwitcher;
+        [SerializeField] private LayerMask _interactionMask;
+        [SerializeField] private LayerMask _floorMask;
 
-        private bool _isDragDropStarted;
-        private bool _isExplosion;
-        private bool _isCameraSwitch;
+        [SerializeField] private ParticleSystem _explosionEffect;
+        [SerializeField] private List<CinemachineVirtualCamera> _cameras;
+
+        private IHoldButton _methodDragDrop;
+        private IClickButton _methodExplosion;
+        private IClickButton _cameraSwitcher;
 
         private void Start()
         {
-            _draDropMethod = GetComponent<DragDrop>();
-            _explosion = GetComponent<ExplosionCaster>();
-            _cameraSwitcher = GetComponent<CameraSwitcher>();
+            _methodDragDrop = new DragDrop(_interactionMask, _floorMask);
+            _methodExplosion = new ExplosionCaster(_interactionMask, _floorMask, _explosionEffect);
+            _cameraSwitcher = new CameraSwitcher(_cameras);
         }
 
         private void Update()
         {
             ReadInput();
-
-            DragDropHandler();
-            ExplosionHandler();
-            CameraSwitchHandler();
         }
 
         private void ReadInput()
         {
-            if (Input.GetKeyDown(DragDropKey))
-                _isDragDropStarted = true;
-            else if (Input.GetKeyUp(DragDropKey))
-                _isDragDropStarted = false;
+            HoldHandler(DragDropKey, _methodDragDrop);
 
-            if (Input.GetKeyDown(ExplosionKey))
-                _isExplosion = true;
-
-            if (Input.GetKeyDown(CameraSwitchKey))
-                _isCameraSwitch = true;
+            ClickHandler(ExplosionKey, _methodExplosion);
+            ClickHandler(CameraSwitchKey, _cameraSwitcher);
         }
 
-        private void DragDropHandler()
+        private void ClickHandler(KeyCode key, IClickButton method)
         {
-            _draDropMethod.DragTarget(_isDragDropStarted);
+            if (Input.GetKeyDown(key))
+                method.OnButtonDown();
         }
 
-        private void ExplosionHandler()
+        private void HoldHandler(KeyCode key, IHoldButton method)
         {
-            if (_isExplosion)
-            {
-                _explosion.Explosion();
-                _isExplosion = false;
-            }
-        }
-
-        private void CameraSwitchHandler()
-        {
-            if (_isCameraSwitch)
-            {
-                _cameraSwitcher.SwitchCamera();
-                _isCameraSwitch = false;
-            }
+            if (Input.GetKeyDown(key))
+                method.OnButtonDown();
+            else if (Input.GetKey(key))
+                method.OnButtonHold();
+            else if (Input.GetKeyUp(key))
+                method.OnButtonRelease();
         }
     }
 }

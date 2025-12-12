@@ -597,10 +597,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 358445113}
-  - component: {fileID: 358445114}
-  - component: {fileID: 358445115}
-  - component: {fileID: 358445116}
-  - component: {fileID: 358445117}
+  - component: {fileID: 358445119}
   m_Layer: 0
   m_Name: GameContext
   m_TagString: Untagged
@@ -623,7 +620,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &358445114
+--- !u!114 &358445119
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -635,58 +632,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6feca184715484cbd7dc69b2f3710b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &358445115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358445110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 722e33e82ac90ef489df6ce49d061243, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   _interactionMask:
     serializedVersion: 2
     m_Bits: 64
   _floorMask:
     serializedVersion: 2
     m_Bits: 128
---- !u!114 &358445116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358445110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4b33d4ec7e15c44e8c7c51e9b5ddc8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interactionMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _floorMask:
-    serializedVersion: 2
-    m_Bits: 128
-  _explosionRadius: 3
-  _explosionPowerMultiplier: 300
   _explosionEffect: {fileID: 4504122823257356748, guid: f4d3f42f9b937c7479620ef72c77ca16,
     type: 3}
---- !u!114 &358445117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 358445110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfd90b1066603954ea2bb7965ae7bfa3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   _cameras:
   - {fileID: 1324121336}
   - {fileID: 1710634586}
@@ -1032,8 +985,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961739749}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.08911111, y: 0.40063384, z: -0.03918394, w: -0.91105235}
-  m_LocalPosition: {x: 9.769749, y: 3.0320857, z: -9.038925}
+  m_LocalRotation: {x: -0.12545978, y: 0.86020887, z: -0.25482497, w: -0.42351493}
+  m_LocalPosition: {x: 10.244514, y: 10.848303, z: 8.651815}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

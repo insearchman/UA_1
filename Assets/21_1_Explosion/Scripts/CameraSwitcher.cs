@@ -1,18 +1,24 @@
 using Cinemachine;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Modul_21_1
 {
-    public class CameraSwitcher : MonoBehaviour
+    public class CameraSwitcher : IClickButton
     {
-        [SerializeField] private List<CinemachineVirtualCamera> _cameras;
+        private List<CinemachineVirtualCamera> _cameras;
+
         private Queue<CinemachineVirtualCamera> _cameraQueue;
 
-        private void Awake()
+        public CameraSwitcher(List<CinemachineVirtualCamera> cameras)
         {
+            _cameras = cameras;
             _cameraQueue = new Queue<CinemachineVirtualCamera>(_cameras);
 
+            SwitchCamera();
+        }
+
+        public void OnButtonDown()
+        {
             SwitchCamera();
         }
 

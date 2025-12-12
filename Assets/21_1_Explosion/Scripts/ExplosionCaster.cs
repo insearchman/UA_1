@@ -2,22 +2,29 @@ using UnityEngine;
 
 namespace Modul_21_1
 {
-    public class ExplosionCaster : MonoBehaviour
+    public class ExplosionCaster : IClickButton
     {
-        [SerializeField] private LayerMask _interactionMask;
-        [SerializeField] private LayerMask _floorMask;
+        private LayerMask _interactionMask;
+        private LayerMask _floorMask;
+        private ParticleSystem _explosionEffect;
 
-        [SerializeField] private float _explosionRadius = 3f;
-        [SerializeField] private float _explosionPowerMultiplier = 300f;
-        [SerializeField] private ParticleSystem _explosionEffect;
+        private float _explosionRadius = 3f;
+        private float _explosionPowerMultiplier = 300f;
 
-        public void Explosion()
+        public ExplosionCaster(LayerMask interactionMask, LayerMask floorMask, ParticleSystem explosionEffect)
+        {
+            _interactionMask = interactionMask;
+            _floorMask = floorMask;
+            _explosionEffect = explosionEffect;
+        }
+
+        public void OnButtonDown()
         {
             Ray rayFromCamera = Camera.main.ScreenPointToRay(Input.mousePosition);
 
             if (TryGetPointOnFloor(rayFromCamera, out Vector3 pointOnFloor))
             {
-                ParticleSystem effect = Instantiate(_explosionEffect, pointOnFloor, _explosionEffect.transform.rotation);
+                ParticleSystem effect = Object.Instantiate(_explosionEffect, pointOnFloor, _explosionEffect.transform.rotation);
 
                 Collider[] targets = Physics.OverlapSphere(pointOnFloor, _explosionRadius, _interactionMask);
 
