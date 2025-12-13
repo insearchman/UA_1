@@ -1,4 +1,4 @@
-namespace Modul_21_1
+namespace Modul_21_1.Gameplay.Interface
 {
     public interface IHoldButton
     {

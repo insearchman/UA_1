@@ -1,6 +1,8 @@
 using UnityEngine;
 
-namespace Modul_21_1
+using Modul_21_1.Gameplay.Interface;
+
+namespace Modul_21_1.Gameplay.Features
 {
     public class ExplosionCaster : IClickButton
     {

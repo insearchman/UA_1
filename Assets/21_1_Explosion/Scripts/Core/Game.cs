@@ -2,7 +2,10 @@ using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Modul_21_1
+using Modul_21_1.Gameplay.Features;
+using Modul_21_1.Gameplay.Interface;
+
+namespace Modul_21_1.Core
 {
     public class Game : MonoBehaviour
     {
