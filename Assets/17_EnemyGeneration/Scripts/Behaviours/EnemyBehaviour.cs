@@ -17,37 +17,34 @@ namespace Modul_17
     {
         private const float MinDistance = 0.5f;
 
-        private Mover _mover;
-        private Transform _self;
-        private PatrolArea _patrolArea;
-        private List<Transform> _patrolPoints;
+        private readonly float WalkingSpeed;
+        private readonly float RotationSpeed;
+        private readonly Mover MovableMover;
+        private readonly Transform MovableTransform;
+        private readonly List<Transform> PatrolPoints;
 
         private int _currentPatrolPointIndex;
-        private float _walkingSpeed;
-        private float _rotationSpeed;
 
-        public Patrol(Mover mover, PatrolArea patrolArea)
+        public Patrol(IMovable movable, PatrolArea patrolArea)
         {
-            _mover = mover;
-            _self = _mover.transform;
-            _walkingSpeed = _self.transform.GetComponent<Enemy>().WalkingSpeed;
-            _rotationSpeed = _self.transform.transform.GetComponent<Enemy>().RotationSpeed;
+            WalkingSpeed = movable.WalkingSpeed;
+            RotationSpeed = movable.RotationSpeed;
+            MovableMover = movable.Mover;
+            MovableTransform = movable.Transform;
 
-            _patrolArea = patrolArea;
-            _patrolPoints = _patrolArea.Points;
-
+            PatrolPoints = patrolArea.Points;
             _currentPatrolPointIndex = GetRandomPatrolPoint();
         }
 
         public void Update()
         {
             Vector3 currentDirectionToMove = GetDirectionToMove();
-            _mover.MoveCharacter(currentDirectionToMove, _walkingSpeed, _rotationSpeed);
+            MovableMover.MoveCharacter(currentDirectionToMove, WalkingSpeed, RotationSpeed);
         }
 
         public Vector3 GetDirectionToMove()
         {
-            Vector3 vectorToTarget = _patrolPoints[_currentPatrolPointIndex].transform.position - _self.transform.position;
+            Vector3 vectorToTarget = PatrolPoints[_currentPatrolPointIndex].position - MovableTransform.position;
             vectorToTarget.y = 0;
 
             float distance = Mathf.Abs(vectorToTarget.magnitude);
@@ -55,18 +52,18 @@ namespace Modul_17
             if (distance <= MinDistance)
                 _currentPatrolPointIndex = GetRandomPatrolPoint();
 
-            Vector3 direction = (_patrolPoints[_currentPatrolPointIndex].transform.position - _self.transform.position).normalized;
+            Vector3 direction = (PatrolPoints[_currentPatrolPointIndex].position - MovableTransform.position).normalized;
             direction.y = 0;
 
             return direction.normalized;
         }
-
+        
         private int GetRandomPatrolPoint()
         {
             int newPoint;
 
             do
-                newPoint = Random.Range(0, _patrolPoints.Count);
+                newPoint = Random.Range(0, PatrolPoints.Count);
             while (_currentPatrolPointIndex == newPoint);
 
             return newPoint;
@@ -77,28 +74,26 @@ namespace Modul_17
     {
         private const float ChangeDirectionTime = 1f;
 
-        private float _time;
+        private readonly float WalkingSpeed;
+        private readonly float RotationSpeed;
+        private readonly Mover MovableMover;
 
+        private float _time;
         private Vector3 _currentMoveDirection;
 
-        private Mover _mover;
-
-        private float _walkingSpeed;
-        private float _rotationSpeed;
-
-        public Roam(Mover mover)
+        public Roam(IMovable movable)
         {
-            _mover = mover;
-            _currentMoveDirection = CreateRandomMoveDirection();
+            WalkingSpeed = movable.WalkingSpeed;
+            RotationSpeed = movable.RotationSpeed;
+            MovableMover = movable.Mover;
 
-            _walkingSpeed = _mover.transform.GetComponent<Enemy>().WalkingSpeed;
-            _rotationSpeed = _mover.transform.transform.GetComponent<Enemy>().RotationSpeed;
+            _currentMoveDirection = CreateRandomMoveDirection();
         }
 
         public void Update()
         {
             Vector3 currentDirectionToMove = GetDirectionToMove();
-            _mover.MoveCharacter(currentDirectionToMove, _walkingSpeed, _rotationSpeed);
+            MovableMover.MoveCharacter(currentDirectionToMove, WalkingSpeed, RotationSpeed);
         }
 
         public Vector3 GetDirectionToMove()
@@ -128,40 +123,40 @@ namespace Modul_17
 
     public class RunAway : IBehaviour
     {
-        private Mover _mover;
-        private Transform _self;
-        private Player _target;
-        private Enemy _enemy;
+        private readonly IMovable Movable;
+        private readonly float WalkingSpeed;
+        private readonly float RotationSpeed;
+        private readonly Mover MovableMover;
+        private readonly Transform MovableTransform;
 
-        private float _walkingSpeed;
-        private float _rotationSpeed;
+        private Transform _currentTarget;
 
-        public RunAway(Mover mover)
+        public RunAway(IMovable movable)
         {
-            _mover = mover;
-            _self = _mover.transform;
+            Movable = movable;
 
-            _enemy = _self.transform.GetComponent<Enemy>();
-            _walkingSpeed = _self.transform.GetComponent<Enemy>().WalkingSpeed;
-            _rotationSpeed = _self.transform.transform.GetComponent<Enemy>().RotationSpeed;
+            WalkingSpeed = Movable.WalkingSpeed;
+            RotationSpeed = Movable.RotationSpeed;
+            MovableMover = Movable.Mover;
+            MovableTransform = Movable.Transform;
         }
 
         public void Update()
         {
-            _target = _enemy.Player;
+            _currentTarget = Movable.Target.transform;
 
-            if (_target == null)
+            if (_currentTarget == null)
                 return;
 
-            Vector3 currentDirectionToMove = GetDirectionToMove(_target.gameObject);
-            _mover.MoveCharacter(currentDirectionToMove, _walkingSpeed, _rotationSpeed);
+            Vector3 currentDirectionToMove = GetDirectionToMove(_currentTarget);
+            MovableMover.MoveCharacter(currentDirectionToMove, WalkingSpeed, RotationSpeed);
         }
 
-        private Vector3 _targetDirection;
-
-        public Vector3 GetDirectionToMove(GameObject player)
+        public Vector3 GetDirectionToMove(Transform player)
         {
-            _targetDirection = _self.transform.position - player.transform.position;
+            Vector3 _targetDirection;
+
+            _targetDirection = MovableTransform.position - player.position;
             _targetDirection.y = 0;
 
             return _targetDirection.normalized;
@@ -170,60 +165,57 @@ namespace Modul_17
 
     public class Pursue : IBehaviour
     {
-        private Mover _mover;
-        private Transform _self;
-        private Player _target;
-        private Enemy _enemy;
+        private readonly IMovable Movable;
+        private readonly float WalkingSpeed;
+        private readonly float RotationSpeed;
+        private readonly Mover MovableMover;
+        private readonly Transform MovableTransform;
 
-        private float _walkingSpeed;
-        private float _rotationSpeed;
+        private Transform _currentTarget;
 
-        public Pursue(Mover mover)
+        public Pursue(IMovable movable)
         {
-            _mover = mover;
-            _self = _mover.transform;
-
-            _enemy = _self.transform.GetComponent<Enemy>();
-            _walkingSpeed = _self.transform.GetComponent<Enemy>().WalkingSpeed;
-            _rotationSpeed = _self.transform.transform.GetComponent<Enemy>().RotationSpeed;
+            Movable = movable;
+            MovableMover = Movable.Mover;
+            MovableTransform = Movable.Transform;
+            WalkingSpeed = Movable.WalkingSpeed;
+            RotationSpeed = Movable.RotationSpeed;
         }
 
         public void Update()
         {
-            _target = _enemy.Player;
+            _currentTarget = Movable.Target.transform;
 
-            if (_target == null)
+            if (_currentTarget == null)
                 return;
 
-            Vector3 currentDirectionToMove = GetDirectionToMove(_target.gameObject);
-            _mover.MoveCharacter(currentDirectionToMove, _walkingSpeed, _rotationSpeed);
+            Vector3 currentDirectionToMove = GetDirectionToMove(_currentTarget);
+            MovableMover.MoveCharacter(currentDirectionToMove, WalkingSpeed, RotationSpeed);
         }
 
-        private Vector3 _targetDirection;
-
-        public Vector3 GetDirectionToMove(GameObject player)
+        public Vector3 GetDirectionToMove(Transform player)
         {
-            _targetDirection = player.transform.position - _self.transform.position;
+            Vector3 _targetDirection;
+
+            _targetDirection = player.position - MovableTransform.position;
             _targetDirection.y = 0;
 
             return _targetDirection.normalized;
         }
     }
 
-    public class Die : IBehaviour
+    public class Suicide : IBehaviour
     {
-        private Mover _mover;
-        private Enemy _self;
+        private readonly IMovable _mover;
 
-        public Die(Mover mover)
+        public Suicide(IMovable movable)
         {
-            _mover = mover;
-            _self = _mover.GetComponent<Enemy>();
+            _mover = movable;
         }
 
         public void Update()
         {
-            _self.Die();
+            _mover.Die();
         }
     }
 }

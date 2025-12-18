@@ -3,44 +3,39 @@ using UnityEngine;
 namespace Modul_17
 {
     [RequireComponent(typeof(Mover))]
-    public class Enemy : MonoBehaviour
+    public class Enemy : MonoBehaviour, IMovable
     {
-        public Player Player {  get; private set; }
-        public PatrolArea Area { get; private set; }
-        public Mover Mover { get; private set; }
-        public float WalkingSpeed { get; private set; } = 2f;
-        public float RotationSpeed { get; private set; } = 500f;
-
         [SerializeField] private ParticleSystem _deathParticle;
-
-        private BehaviourController _behaviourController;
         private IBehaviour _idleAction;
         private IBehaviour _activeAction;
 
+        [SerializeField] public float WalkingSpeed { get; private set; } = 2f;
+        [SerializeField] public float RotationSpeed { get; private set; } = 500f;
+        public Mover Mover { get; private set; }
+        public Transform Transform => transform;
+        public Player Target {  get; private set; }
+
         private void Awake()
         {
-            _behaviourController = new BehaviourController();
             Mover = GetComponent<Mover>();
-
-            Area = FindAnyObjectByType<PatrolArea>();
         }
 
         private void Update()
         {
-            if (Player == null)
+            if (Target == null)
             {
-                _idleAction.Update();
+                _idleAction?.Update();
             }
             else
             {
-                _activeAction.Update();
+                _activeAction?.Update();
             }
         }
 
-        public void SetBehaviours(IdleBehaviourTypes idle, ActiveBehaviourTypes action)
+        public void SetBehaviours(IBehaviour idle, IBehaviour active)
         {
-            _idleAction = _behaviourController.GetIdleBehaviour(idle, this);
-            _activeAction = _behaviourController.GetActiveBehaviour(action, this);
+            _idleAction = idle;
+            _activeAction = active;
         }
 
         public void Die()
@@ -60,7 +55,7 @@ namespace Modul_17
 
             if (player != null)
             {
-                Player = player;
+                Target = player;
             }
         }
 
@@ -70,7 +65,7 @@ namespace Modul_17
 
             if (player != null)
             {
-                Player = null;
+                Target = null;
             }
         }
     }

@@ -46,5 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyPrefab: {fileID: 8626624959739709036, guid: 8b9384e376fb8f34fa5ae231f0f1a66c,
     type: 3}
+  _patrolArea: {fileID: 8140205311943915157, guid: 3c1af367e9719024a9564b896e065151,
+    type: 3}
   _idleBehaviour: 0
   _activeBehaviour: 0
