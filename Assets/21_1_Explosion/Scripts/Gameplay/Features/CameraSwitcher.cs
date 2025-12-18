@@ -1,11 +1,9 @@
 using Cinemachine;
 using System.Collections.Generic;
 
-using Modul_21_1.Gameplay.Interface;
-
-namespace Modul_21_1.Gameplay.Features
+namespace Modul_21_1.Gameplay
 {
-    public class CameraSwitcher : IClickButton
+    public class CameraSwitcher : IClickButtonHandler
     {
         private List<CinemachineVirtualCamera> _cameras;
 

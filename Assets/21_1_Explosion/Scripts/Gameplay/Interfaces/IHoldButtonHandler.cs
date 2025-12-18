@@ -1,6 +1,6 @@
-namespace Modul_21_1.Gameplay.Interface
+namespace Modul_21_1.Gameplay
 {
-    public interface IHoldButton
+    public interface IHoldButtonHandler
     {
         void OnButtonDown();
         void OnButtonHold();

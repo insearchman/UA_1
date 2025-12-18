@@ -1,23 +1,23 @@
 using UnityEngine;
 
-using Modul_21_1.Gameplay.Interface;
-
-namespace Modul_21_1.Gameplay.Features
+namespace Modul_21_1.Gameplay
 {
-    public class ExplosionCaster : IClickButton
+    public class ExplosionCaster : IClickButtonHandler
     {
-        private LayerMask _interactionMask;
-        private LayerMask _floorMask;
-        private ParticleSystem _explosionEffect;
+        private readonly float ExplosionRadius;
+        private readonly float ExplosionPowerMultiplier;
 
-        private float _explosionRadius = 3f;
-        private float _explosionPowerMultiplier = 300f;
+        private readonly LayerMask InteractionMask;
+        private readonly LayerMask FloorMask;
+        private readonly ParticleSystem ExplosionEffect;
 
-        public ExplosionCaster(LayerMask interactionMask, LayerMask floorMask, ParticleSystem explosionEffect)
+        public ExplosionCaster(LayerMask interactionMask, LayerMask floorMask, ParticleSystem explosionEffect, float explosionRadius, float ExplosionPowerMultiplay)
         {
-            _interactionMask = interactionMask;
-            _floorMask = floorMask;
-            _explosionEffect = explosionEffect;
+            InteractionMask = interactionMask;
+            FloorMask = floorMask;
+            ExplosionEffect = explosionEffect;
+            ExplosionRadius = explosionRadius;
+            ExplosionPowerMultiplier = ExplosionPowerMultiplay;
         }
 
         public void OnButtonDown()
@@ -26,10 +26,10 @@ namespace Modul_21_1.Gameplay.Features
 
             if (TryGetPointOnFloor(rayFromCamera, out Vector3 pointOnFloor))
             {
-                ParticleSystem effect = Object.Instantiate(_explosionEffect, pointOnFloor, _explosionEffect.transform.rotation);
+                Object.Instantiate(ExplosionEffect, pointOnFloor, ExplosionEffect.transform.rotation);
 
-                Collider[] targets = Physics.OverlapSphere(pointOnFloor, _explosionRadius, _interactionMask);
-
+                Collider[] targets = Physics.OverlapSphere(pointOnFloor, ExplosionRadius, InteractionMask);
+                
                 if (targets.Length == 0)
                     return;
 
@@ -41,24 +41,22 @@ namespace Modul_21_1.Gameplay.Features
         {
             foreach (Collider target in targets)
             {
-                Rigidbody rigidbody = target.GetComponent<Rigidbody>();
-
-                if (rigidbody == null)
+                if (target.TryGetComponent(out IExplosionInteractable explosionInteractable) == false)
                     continue;
 
                 Vector3 explosionVector = target.transform.position - explosionPosition;
-                Vector3 explosionPower = explosionVector * (_explosionPowerMultiplier / explosionVector.magnitude);
+                Vector3 explosionPower = explosionVector * (ExplosionPowerMultiplier / explosionVector.magnitude);
 
-                rigidbody.AddForce(explosionPower);
+                explosionInteractable.ExplosionInteract(explosionPower);
             }
         }
-        private bool TryGetPointOnFloor(Ray mousePosition, out Vector3 dragPosition)
+        private bool TryGetPointOnFloor(Ray mousePosition, out Vector3 hitPosition)
         {
-            dragPosition = Vector3.zero;
+            hitPosition = Vector3.zero;
 
-            if (Physics.Raycast(mousePosition, out RaycastHit hit, Mathf.Infinity, _floorMask))
+            if (Physics.Raycast(mousePosition, out RaycastHit hit, Mathf.Infinity, FloorMask))
             {
-                dragPosition = hit.point;
+                hitPosition = hit.point;
                 return true;
             }
 

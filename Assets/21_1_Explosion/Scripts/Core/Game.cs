@@ -2,8 +2,7 @@ using Cinemachine;
 using System.Collections.Generic;
 using UnityEngine;
 
-using Modul_21_1.Gameplay.Features;
-using Modul_21_1.Gameplay.Interface;
+using Modul_21_1.Gameplay;
 
 namespace Modul_21_1.Core
 {
@@ -19,14 +18,17 @@ namespace Modul_21_1.Core
         [SerializeField] private ParticleSystem _explosionEffect;
         [SerializeField] private List<CinemachineVirtualCamera> _cameras;
 
-        private IHoldButton _methodDragDrop;
-        private IClickButton _methodExplosion;
-        private IClickButton _cameraSwitcher;
+        [SerializeField] private float _explosionRadius = 3f;
+        [SerializeField] private float _explosionPowerMultiplier = 300f;
+
+        private IHoldButtonHandler _methodDragDrop;
+        private IClickButtonHandler _methodExplosion;
+        private IClickButtonHandler _cameraSwitcher;
 
         private void Start()
         {
             _methodDragDrop = new DragDrop(_interactionMask, _floorMask);
-            _methodExplosion = new ExplosionCaster(_interactionMask, _floorMask, _explosionEffect);
+            _methodExplosion = new ExplosionCaster(_interactionMask, _floorMask, _explosionEffect, _explosionRadius, _explosionPowerMultiplier);
             _cameraSwitcher = new CameraSwitcher(_cameras);
         }
 
@@ -43,13 +45,13 @@ namespace Modul_21_1.Core
             ClickHandler(CameraSwitchKey, _cameraSwitcher);
         }
 
-        private void ClickHandler(KeyCode key, IClickButton method)
+        private void ClickHandler(KeyCode key, IClickButtonHandler method)
         {
             if (Input.GetKeyDown(key))
                 method.OnButtonDown();
         }
 
-        private void HoldHandler(KeyCode key, IHoldButton method)
+        private void HoldHandler(KeyCode key, IHoldButtonHandler method)
         {
             if (Input.GetKeyDown(key))
                 method.OnButtonDown();
