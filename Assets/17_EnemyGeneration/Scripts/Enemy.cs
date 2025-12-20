@@ -12,8 +12,8 @@ namespace Modul_17
         [SerializeField] public float WalkingSpeed { get; private set; } = 2f;
         [SerializeField] public float RotationSpeed { get; private set; } = 500f;
         public Mover Mover { get; private set; }
-        public Transform Transform => transform;
-        public Player Target {  get; private set; }
+        public Transform Self => transform;
+        public Transform Target {  get; private set; }
 
         private void Awake()
         {
@@ -55,7 +55,7 @@ namespace Modul_17
 
             if (player != null)
             {
-                Target = player;
+                Target = player.transform;
             }
         }
 

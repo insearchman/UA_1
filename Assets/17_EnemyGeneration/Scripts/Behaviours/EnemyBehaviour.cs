@@ -30,7 +30,7 @@ namespace Modul_17
             WalkingSpeed = movable.WalkingSpeed;
             RotationSpeed = movable.RotationSpeed;
             MovableMover = movable.Mover;
-            MovableTransform = movable.Transform;
+            MovableTransform = movable.Self;
 
             PatrolPoints = patrolArea.Points;
             _currentPatrolPointIndex = GetRandomPatrolPoint();
@@ -138,12 +138,12 @@ namespace Modul_17
             WalkingSpeed = Movable.WalkingSpeed;
             RotationSpeed = Movable.RotationSpeed;
             MovableMover = Movable.Mover;
-            MovableTransform = Movable.Transform;
+            MovableTransform = Movable.Self;
         }
 
         public void Update()
         {
-            _currentTarget = Movable.Target.transform;
+            _currentTarget = Movable.Target;
 
             if (_currentTarget == null)
                 return;
@@ -177,14 +177,14 @@ namespace Modul_17
         {
             Movable = movable;
             MovableMover = Movable.Mover;
-            MovableTransform = Movable.Transform;
+            MovableTransform = Movable.Self;
             WalkingSpeed = Movable.WalkingSpeed;
             RotationSpeed = Movable.RotationSpeed;
         }
 
         public void Update()
         {
-            _currentTarget = Movable.Target.transform;
+            _currentTarget = Movable.Target;
 
             if (_currentTarget == null)
                 return;
