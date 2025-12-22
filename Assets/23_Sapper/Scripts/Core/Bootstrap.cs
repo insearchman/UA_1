@@ -10,7 +10,6 @@ namespace Modul_23.Core
         [SerializeField] private LayerMask _floorMask;
 
         [SerializeField] private Character _player;
-        [SerializeField] private Transform _pointFlagPrefab;
         [SerializeField] private float _timeToBored = 5f;
 
         private ActiveIdleControllersManager _playerBehaviourController;
@@ -19,10 +18,8 @@ namespace Modul_23.Core
         {
             NavMeshQueryFilter filter = GetFilter();
 
-            Transform pointFlag = Instantiate(_pointFlagPrefab);
-
             _playerBehaviourController = new ActiveIdleControllersManager(_player, 
-                new PointCharacterController(_player, _floorMask, filter, pointFlag, _timeToBored), 
+                new PointCharacterController(_player, _floorMask, filter, _timeToBored), 
                 new RandomCharacterController(_player, filter));
 
             _playerBehaviourController.Enable();

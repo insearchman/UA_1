@@ -67,10 +67,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d73f77de9bd85942a298c68f4e299d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ExplosionEffect: {fileID: 4504122823257356748, guid: c87d2246cd4ab4b4ba01a10589c0072c,
+  _explosionEffect: {fileID: 4504122823257356748, guid: c87d2246cd4ab4b4ba01a10589c0072c,
     type: 3}
-  ExplosionRadius: 4
-  ExplosionDamage: 30
+  _explosionRadius: 4
+  _explosionDamage: 30
   _timeToActivate: 2
 --- !u!1001 &5778269853911401483
 PrefabInstance:

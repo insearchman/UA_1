@@ -623,13 +623,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 303a4ee4649a4fb4e9c843d75f654243, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FloorMask:
+  _floorMask:
     serializedVersion: 2
     m_Bits: 128
-  Player: {fileID: 1361022416}
-  PointFlagPrefab: {fileID: 2738838397412436881, guid: 26954812a46937f4886086356ddbeca4,
-    type: 3}
-  TimeToGetBored: 5
+  _player: {fileID: 1361022416}
+  _timeToBored: 5
 --- !u!95 &378810045 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 758966289707626552, guid: c09795d9303dd2c4cb9bc94c4841372f,
@@ -1532,7 +1530,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 751575774487033652, guid: c09795d9303dd2c4cb9bc94c4841372f,
         type: 3}
+      propertyPath: _pointFlagPrefab
+      value: 
+      objectReference: {fileID: 2738838397412436881, guid: 26954812a46937f4886086356ddbeca4,
+        type: 3}
+    - target: {fileID: 751575774487033652, guid: c09795d9303dd2c4cb9bc94c4841372f,
+        type: 3}
       propertyPath: CharacterAnimator
+      value: 
+      objectReference: {fileID: 378810045}
+    - target: {fileID: 751575774487033652, guid: c09795d9303dd2c4cb9bc94c4841372f,
+        type: 3}
+      propertyPath: _characterAnimator
       value: 
       objectReference: {fileID: 378810045}
     - target: {fileID: 2749142559529301753, guid: c09795d9303dd2c4cb9bc94c4841372f,
@@ -2005,7 +2014,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: b9940d3e38cf60e42a0007dca39aad85, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: c2ab57c9c5ab91c479b6c028c15e8e0c, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &1979182882
 PrefabInstance:

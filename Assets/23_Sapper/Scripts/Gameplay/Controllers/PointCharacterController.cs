@@ -16,7 +16,6 @@ namespace Modul_23.Gameplay
 
         private readonly Character Target;
         private readonly NavMeshPath Path;
-        private readonly Transform PointFlagPrefab;
         private readonly NavMeshQueryFilter Filter;
         private readonly LayerMask FloorMask;
         private readonly float TimeToBored;
@@ -24,14 +23,13 @@ namespace Modul_23.Gameplay
         private Vector3 _movePoint;
         private float _inactiveTime;
 
-        public PointCharacterController(Character target, LayerMask floorMask, NavMeshQueryFilter filter, Transform pointFlagPrefab, float timeToBored)
+        public PointCharacterController(Character target, LayerMask floorMask, NavMeshQueryFilter filter,  float timeToBored)
         {
             Path = new NavMeshPath();
 
             Target = target;
             FloorMask = floorMask;
             Filter = filter;
-            PointFlagPrefab = pointFlagPrefab;
             TimeToBored = timeToBored;
         }
 
@@ -89,14 +87,12 @@ namespace Modul_23.Gameplay
 
                 if (IsDistanceEnough(distanceToTarget) && EnoughCornerInPath(Path))
                 {
-                    PointFlagPrefab.position = _movePoint;
-                    PointFlagPrefab.gameObject.SetActive(true);
+                    Target.SetMovePosition(_movePoint);
                     
                     return Path.corners[TargetCornerIndex] - Path.corners[StartCornerIndex];
                 }
             }
-
-            PointFlagPrefab.gameObject.SetActive(false);
+            Target.SetMovePosition(Vector3.zero);
 
             return Vector3.zero;
         }

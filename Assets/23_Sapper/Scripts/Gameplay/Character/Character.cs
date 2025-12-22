@@ -1,14 +1,16 @@
+using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace Modul_23.Gameplay
 {
     [RequireComponent(typeof(CharacterController))]
-    public class Character : MonoBehaviour, IMovable, IDamagable, ICharacterAnimatable
+    public class Character : MonoBehaviour, IDamagable, ICharacter
     {
         [SerializeField] private int _maxHealth = 100;
         [SerializeField] private int _hurtedHealth = 30;
 
         [SerializeField] private Animator _characterAnimator;
+        [SerializeField] private Transform _pointFlagPrefab;
 
         private CharacterHealth _health;
         private CharacterMover _mover;
@@ -20,6 +22,7 @@ namespace Modul_23.Gameplay
         public bool IsAlive { get; private set; }
         public bool IsMoved { get; private set; }
         public int Hits { get; private set; }
+        public Vector3 MovePosition { get; private set; }
 
         public CharacterController CharacterController { get; private set; }
         public Transform CurrentTransform => transform;
@@ -29,19 +32,24 @@ namespace Modul_23.Gameplay
         {
             CharacterController = GetComponent<CharacterController>();
 
+            Transform pointFlag = Instantiate(_pointFlagPrefab);
+
             _health = new CharacterHealth(_maxHealth);
-            _mover = new CharacterMover(this);
-            _view = new CharacterView(this, _characterAnimator);
+            _mover = new CharacterMover(CharacterController, transform, MoveSpeed, RotateSpeed);
+            _view = new CharacterView(this, _characterAnimator, pointFlag);
 
             IsAlive = true;
         }
 
         private void Update()
         {
+            _view.Update();
+
+            if (IsAlive == false)
+                return;
+
             _mover.Update(Time.deltaTime);
             IsMoved = _mover.IsMoved;
-
-            _view.Update();
         }
 
         public void SetMoveDirection(Vector3 movePoint)
@@ -60,6 +68,11 @@ namespace Modul_23.Gameplay
                 Hurted(true);
             else
                 Hurted(false);
+        }
+
+        public void SetMovePosition(Vector3 position)
+        {
+            MovePosition = position;
         }
 
         private void Die()

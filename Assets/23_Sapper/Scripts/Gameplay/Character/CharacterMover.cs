@@ -9,19 +9,17 @@ namespace Modul_23.Gameplay
         private readonly float MoveSpeed;
         private readonly float RotateSpeed;
 
-        private readonly IMovable Movable;
         private readonly CharacterController CharacterController;
         private readonly Transform MovableTransform;
 
         private Vector3 _currentDirection;
 
-        public CharacterMover(IMovable character)
+        public CharacterMover(CharacterController characterController, Transform transform, float moveSpeed, float rotateSpeed)
         {
-            Movable = character;
-            CharacterController = Movable.CharacterController;
-            MovableTransform = Movable.CurrentTransform;
-            MoveSpeed = Movable.MoveSpeed;
-            RotateSpeed = Movable.RotateSpeed;
+            CharacterController = characterController;
+            MovableTransform = transform;
+            MoveSpeed = moveSpeed;
+            RotateSpeed = rotateSpeed;
         }
 
         public bool IsMoved { get; private set; }

@@ -10,8 +10,9 @@ namespace Modul_23.Gameplay
         private readonly int HitTrigger = Animator.StringToHash("Hit");
         private readonly int IsDeadBool = Animator.StringToHash("IsDead");
 
-        private readonly ICharacterAnimatable Character;
+        private readonly ICharacter Character;
         private readonly Animator Animator;
+        private readonly Transform PointFlagPrefab;
 
         private readonly int NormalLayerIndex;
         private readonly int HartedLayerIndex;
@@ -19,10 +20,11 @@ namespace Modul_23.Gameplay
         private bool _isHarted;
         private int _hits;
 
-        public CharacterView(ICharacterAnimatable character, Animator animator)
+        public CharacterView(ICharacter character, Animator animator, Transform pointFlagPrefab)
         {
             Character = character;
             Animator = animator;
+            PointFlagPrefab = pointFlagPrefab;
 
             NormalLayerIndex = Animator.GetLayerIndex("Normal");
             HartedLayerIndex = Animator.GetLayerIndex("Harted");
@@ -34,6 +36,7 @@ namespace Modul_23.Gameplay
             SwitchStateLayer();
             SwitchWalkingAnimation();
             CheckHit();
+            PlaceFlag();
         }
 
         private void SwitchStateLayer()
@@ -52,14 +55,10 @@ namespace Modul_23.Gameplay
         private void ActivateLayer(int layer)
         {
             for (int i = 1; i < Animator.layerCount; i++)
-            {
                 Animator.SetLayerWeight(i, 0f);
-            }
 
             if (layer > 0)
-            {
                 Animator.SetLayerWeight(layer, 1f);
-            }
         }
 
         private void SwitchWalkingAnimation()
@@ -82,6 +81,21 @@ namespace Modul_23.Gameplay
             {
                 _hits = Character.Hits;
                 Animator.SetTrigger(HitTrigger);
+            }
+        }
+
+        private void PlaceFlag()
+        {
+            Vector3 position = Character.MovePosition;
+
+            if (position == Vector3.zero)
+            {
+                PointFlagPrefab.gameObject.SetActive(false);
+            }
+            else
+            {
+                PointFlagPrefab.position = position;
+                PointFlagPrefab.gameObject.SetActive(true);
             }
         }
     }

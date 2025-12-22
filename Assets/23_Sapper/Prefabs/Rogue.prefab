@@ -73,11 +73,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2126e25307d121148b0811ca2a71cf23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 2.5
-  <RotateSpeed>k__BackingField: 900
-  _animator: {fileID: 758966289707626552}
   _maxHealth: 100
   _hurtedHealth: 30
+  _characterAnimator: {fileID: 758966289707626552}
+  _pointFlagPrefab: {fileID: 2738838397412436881, guid: 26954812a46937f4886086356ddbeca4,
+    type: 3}
+  <MoveSpeed>k__BackingField: 2.5
+  <RotateSpeed>k__BackingField: 900
 --- !u!1 &3483407301198485455
 GameObject:
   m_ObjectHideFlags: 0
