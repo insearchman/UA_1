@@ -49,7 +49,7 @@ namespace Modul_25.Gameplay
 
             if (_character is AgentCharacter agent)
             {
-                if (Jump(agent))
+                if (TryJump(agent))
                     return;
 
                 if (TryGetMovePoint(agent, out Vector3 movePoint))
@@ -78,7 +78,7 @@ namespace Modul_25.Gameplay
             }
         }
 
-        private bool Jump(AgentCharacter agent)
+        private bool TryJump(AgentCharacter agent)
         {
             if (agent.IsOnNavMeshLink(out OffMeshLinkData offMeshLinkData))
             {

@@ -105,7 +105,7 @@ namespace Modul_25.Gameplay
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out Item item))
+            if (other.TryGetComponent(out IUsable item))
             {
                 item.Use(this);
             }

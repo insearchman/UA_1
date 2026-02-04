@@ -1,7 +1,7 @@
+using Modul_25.Gameplay;
 using UnityEngine;
 using UnityEngine.AI;
-
-using Modul_25.Gameplay;
+using UnityEngine.Audio;
 
 namespace Modul_25.Core
 {
@@ -15,8 +15,9 @@ namespace Modul_25.Core
 
         private ActiveIdleControllersManager _playerBehaviourController;
 
+        private KeyboardInput _input;
         private HealSpawner _healSpawner;
-        [SerializeField] private Item _healingBottlePrefab;
+        [SerializeField] private HealingBottle _healingBottlePrefab;
         [SerializeField] private int _healthHealing = 10;
         [SerializeField] private float _spawnCooldown = 3f;
         [SerializeField] private float _spawnDistance = 3f;
@@ -34,12 +35,15 @@ namespace Modul_25.Core
 
             _playerBehaviourController.Enable();
 
-            _healSpawner = new HealSpawner(this, _healingBottlePrefab, _player.transform, filter, _healthHealing, _spawnCooldown, _spawnDistance);
+            _input = new KeyboardInput();
+
+            _healSpawner = new HealSpawner(this, _healingBottlePrefab, _player.transform, _input, filter, _healthHealing, _spawnCooldown, _spawnDistance);
         }
 
         private void Update()
         {
             _playerBehaviourController.Update(Time.deltaTime);
+            _input.Update();
             _healSpawner.Update();
         }
 
@@ -50,6 +54,11 @@ namespace Modul_25.Core
                 agentTypeID = 0,
                 areaMask = NavMesh.AllAreas
             };
+        }
+
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
         }
     }
 }

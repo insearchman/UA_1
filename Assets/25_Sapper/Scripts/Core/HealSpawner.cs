@@ -8,10 +8,9 @@ namespace Modul_25.Core
 {
     public class HealSpawner
     {
-        private const KeyCode ACTIVATE_KEY = KeyCode.F;
         private const int RANDOM_POINT_MAX_COUNT_TRY = 20;
 
-        private Item _healItemPrefab;
+        private HealingBottle _healItemPrefab;
 
         private int _healthHealing;
         private float _spawnDistance;
@@ -19,13 +18,15 @@ namespace Modul_25.Core
         private NavMeshQueryFilter _filter;
         private NavMeshPath _path;
 
+        private KeyboardInput _input;
         private MonoBehaviour _monoBehaviour;
         private Coroutine _spawnCoroutine;
         private WaitForSeconds _delay;
 
-        public HealSpawner(MonoBehaviour monoBehaviour, 
-            Item healItemPrefab, 
+        public HealSpawner(MonoBehaviour monoBehaviour,
+            HealingBottle healItemPrefab, 
             Transform target,
+            KeyboardInput input,
             NavMeshQueryFilter filter,
             int healthHealing, 
             float spawnCooldown, 
@@ -34,6 +35,7 @@ namespace Modul_25.Core
             _monoBehaviour = monoBehaviour;
             _healItemPrefab = healItemPrefab;
             _target = target;
+            _input = input;
             _filter = filter;
             _healthHealing = healthHealing;
             _spawnDistance = spawnDistance;
@@ -41,7 +43,7 @@ namespace Modul_25.Core
             _delay = new WaitForSeconds(spawnCooldown);
             _path = new NavMeshPath();
 
-            _spawnCoroutine = monoBehaviour.StartCoroutine(SpawnHeal());
+            _spawnCoroutine = _monoBehaviour.StartCoroutine(SpawnHeal());
         }
 
         public void Update()
@@ -51,17 +53,18 @@ namespace Modul_25.Core
 
         private void ActivationSwitcher()
         {
-            if (!Input.GetKeyDown(ACTIVATE_KEY)) 
-                return;
-
-            if (_spawnCoroutine == null)
+            if (_input.IsHealActive)
             {
-                _spawnCoroutine = _monoBehaviour.StartCoroutine(SpawnHeal());
+                if (_spawnCoroutine == null)
+                    _spawnCoroutine = _monoBehaviour.StartCoroutine(SpawnHeal());
             }
             else
             {
-                _monoBehaviour.StopCoroutine(_spawnCoroutine);
-                _spawnCoroutine = null;
+                if (_spawnCoroutine != null)
+                {
+                    _monoBehaviour.StopCoroutine(_spawnCoroutine);
+                    _spawnCoroutine = null;
+                }
             }
         }
 
@@ -73,7 +76,7 @@ namespace Modul_25.Core
 
                 if (position != Vector3.zero)
                 {
-                    Item healItem = Object.Instantiate(_healItemPrefab, position, Quaternion.identity);
+                    HealingBottle healItem = Object.Instantiate(_healItemPrefab, position, Quaternion.identity);
                     healItem.Init(_healthHealing);
                 }
 

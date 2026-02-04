@@ -14,38 +14,25 @@ namespace Modul_25.Gameplay
         [SerializeField] private float _timeToActivate = 2f;
         private AudioSource _explosionSound;
         private MeshRenderer _mineMesh;
-        private WaitUntil _waitUntilPlayerDetected;
 
-        private bool _isActivated;
+        private Coroutine _explosionCoroutine;
 
         private void Start()
         {
-            _waitUntilPlayerDetected = new WaitUntil(() => _isActivated);
             _explosionSound = GetComponent<AudioSource>();
             _mineMesh = GetComponentInChildren<MeshRenderer>();
-
-            StartCoroutine(ActivateMine());
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent<IDamagable>(out _))
-            {
-                _isActivated = true;
-            }
+            if (_explosionCoroutine == null)
+                if (other.TryGetComponent<IDamagable>(out _))
+                    _explosionCoroutine = StartCoroutine(ActivateMine());
         }
 
         private IEnumerator ActivateMine()
         {
-            yield return _waitUntilPlayerDetected;
-
-            float progress = 0;
-
-            while (progress < _timeToActivate)
-            {
-                progress += Time.deltaTime;
-                yield return null;
-            }
+            yield return new WaitForSeconds(_timeToActivate);
 
             Explosion();
         }
@@ -64,6 +51,11 @@ namespace Modul_25.Gameplay
                     confirmedTarget.TakeDamage(_explosionDamage);
 
             Destroy(gameObject, _explosionSound.clip.length);
+        }
+
+        private void OnDestroy()
+        {
+            StopCoroutine(_explosionCoroutine);
         }
     }
 }

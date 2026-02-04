@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Modul_25.Gameplay
 {
-    public class Item : MonoBehaviour
+    public class HealingBottle : MonoBehaviour, IUsable
     {
         private int _healthHealing;
 
@@ -14,7 +14,7 @@ namespace Modul_25.Gameplay
         public void Use(Character character)
         {
             character.Heal(_healthHealing);
-            
+
             Destroy(gameObject);
         }
     }

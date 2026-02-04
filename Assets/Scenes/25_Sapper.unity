@@ -149,7 +149,8 @@ AudioSource:
   m_GameObject: {fileID: 58693931}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7386349320486663285, guid: 5ab735bae30f99d4db74f7d983240b57,
+    type: 2}
   m_audioClip: {fileID: 8300000, guid: f30dd80d994b7b14cb73cb65ba985996, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -516,6 +517,12 @@ PrefabInstance:
       propertyPath: m_PlayOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -6198340250309360380, guid: 6e5a9bbfe6274a64e940329cc3cadbfd,
+        type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 4295598910039581268, guid: 5ab735bae30f99d4db74f7d983240b57,
+        type: 2}
     - target: {fileID: 2749142559529301753, guid: 6e5a9bbfe6274a64e940329cc3cadbfd,
         type: 3}
       propertyPath: m_Name
@@ -946,7 +953,7 @@ MonoBehaviour:
   _pointFlagPrefab: {fileID: 2738838397412436881, guid: 3f6635c74d86a374f8ebd3f7a3a002f8,
     type: 3}
   _timeToBored: 5
-  _healingBottlePrefab: {fileID: 4772605890293512458, guid: 62a65d5f9195c1644bd065767b7b5fbc,
+  _healingBottlePrefab: {fileID: 2407524831084666364, guid: 62a65d5f9195c1644bd065767b7b5fbc,
     type: 3}
   _healthHealing: 10
   _spawnCooldown: 2
@@ -960,20 +967,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 358445110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24c94a6e15b43a34b9ae89d43e8afa25, type: 3}
+  m_Script: {fileID: 11500000, guid: 24d05069ed779744ca502fd48e16da89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isMusicsOn: 0
-  _musics:
-  - {fileID: 58693932}
+  _audioMixer: {fileID: 24100000, guid: 5ab735bae30f99d4db74f7d983240b57, type: 2}
+  _isMusicsOn: 1
   _musicButtonView: {fileID: 1844255781}
   _isSoundsOn: 1
-  _sounds:
-  - {fileID: 1739258034}
-  - {fileID: 1627533935}
-  - {fileID: 796818678}
-  - {fileID: 2050968906}
-  - {fileID: 1453767640}
   _soundButtonView: {fileID: 1303522191}
 --- !u!4 &407873192 stripped
 Transform:
@@ -1174,7 +1174,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -1253,12 +1253,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2401417638036249677, guid: 1bd8b7c5e21367c48aa312149752b8d9,
     type: 3}
   m_PrefabInstance: {fileID: 1979182882}
-  m_PrefabAsset: {fileID: 0}
---- !u!82 &796818678 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 490992726258974436, guid: bdbfa808bc0d99145979080db531dcdd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1444261641}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &860819083 stripped
 Transform:
@@ -1961,7 +1955,7 @@ GameObject:
   - component: {fileID: 1303522191}
   - component: {fileID: 1303522190}
   m_Layer: 5
-  m_Name: SoundOnOff
+  m_Name: SoundSwitcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2371,12 +2365,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1453767636}
   m_PrefabAsset: {fileID: 0}
---- !u!82 &1453767640 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 490992726258974436, guid: bdbfa808bc0d99145979080db531dcdd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1453767636}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1455634878 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7206106332012711716, guid: 6e5a9bbfe6274a64e940329cc3cadbfd,
@@ -2451,12 +2439,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bd8b7c5e21367c48aa312149752b8d9, type: 3}
---- !u!82 &1627533935 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 490992726258974436, guid: bdbfa808bc0d99145979080db531dcdd,
-    type: 3}
-  m_PrefabInstance: {fileID: 3481062813488568063}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1739258029 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4316642795571054454, guid: 6e5a9bbfe6274a64e940329cc3cadbfd,
@@ -2469,12 +2451,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e6a03dc17167fa4baa3192c21731c7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!82 &1739258034 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: -6198340250309360380, guid: 6e5a9bbfe6274a64e940329cc3cadbfd,
-    type: 3}
-  m_PrefabInstance: {fileID: 243213070}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1832606061
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2557,7 +2533,7 @@ GameObject:
   - component: {fileID: 1844255781}
   - component: {fileID: 1844255778}
   m_Layer: 5
-  m_Name: MusicOnOff
+  m_Name: MusicSwitcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2894,12 +2870,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1bd8b7c5e21367c48aa312149752b8d9, type: 3}
---- !u!82 &2050968906 stripped
-AudioSource:
-  m_CorrespondingSourceObject: {fileID: 490992726258974436, guid: bdbfa808bc0d99145979080db531dcdd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1053934026}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2076229856
 PrefabInstance:
   m_ObjectHideFlags: 0
