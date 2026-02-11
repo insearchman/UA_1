@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Modul_28_2
 {
-    public class UIView : MonoBehaviour
+    public class TimerView : MonoBehaviour
     {
         [SerializeField] private Transform _uiGroup;
         [SerializeField] List<Bar> barPrefabs = new List<Bar>();

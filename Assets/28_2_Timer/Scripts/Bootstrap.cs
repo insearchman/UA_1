@@ -12,17 +12,17 @@ namespace Modul_28_2
         Done
     }
 
-    [RequireComponent(typeof(UIView))]
+    [RequireComponent(typeof(TimerView))]
     public class Bootstrap : MonoBehaviour
     {
         [SerializeField, Range(1, 10)] private int _timerTime = 5;
-        private UIView _uiView;
+        private TimerView _uiView;
 
         private Timer _timer;
 
         private void Awake()
         {
-            _uiView = GetComponent<UIView>();
+            _uiView = GetComponent<TimerView>();
             _timer = new(_timerTime);
             _timer.StartTimer();
 

@@ -15,17 +15,17 @@ namespace Modul_28_1
         Spend
     }
 
-    [RequireComponent(typeof(UIView), typeof(KeyboardCurrencyChanger))]
+    [RequireComponent(typeof(WalletView), typeof(KeyboardCurrencyChanger))]
     public class Bootstrap : MonoBehaviour
     {
-        private UIView _uiView;
+        private WalletView _uiView;
         private KeyboardCurrencyChanger _currencyChanger;
 
         private WalletService _walletService;
 
         private void Awake()
         {
-            _uiView = GetComponent<UIView>();
+            _uiView = GetComponent<WalletView>();
             _currencyChanger = GetComponent<KeyboardCurrencyChanger>();
 
             _walletService = new(_currencyChanger);

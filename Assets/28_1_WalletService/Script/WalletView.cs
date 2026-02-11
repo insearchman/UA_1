@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Modul_28_1
 {
-    public class UIView : MonoBehaviour
+    public class WalletView : MonoBehaviour
     {
         [SerializeField] private UICurrencyElement _currencyPrefab;
         [SerializeField] private Transform _elementsGroup;

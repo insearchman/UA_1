@@ -8,7 +8,7 @@ namespace Modul_28_3
     {
         [SerializeField] private int _unitsCapacity = 5;
 
-        private List<(Unit unit, Func<Unit, bool> check)> _units = new();
+        private List<(Unit unit, Func<bool> check)> _units = new();
 
         public void Update()
         {
@@ -20,7 +20,7 @@ namespace Modul_28_3
 
         public int GetUnitsCount() => _units.Count;
 
-        public void AddUnit(Unit unit, Func<Unit, bool> killType)
+        public void AddUnit(Unit unit, Func<bool> killType)
         {
             _units.Add((unit, killType));
         }
@@ -29,9 +29,9 @@ namespace Modul_28_3
         {
             for (int i = 0; i < _units.Count; i++)
             {
-                if (_units[i].check(_units[i].unit))
+                if (_units[i].check())
                 {
-                    Destroy(_units[i].unit);
+                    Destroy(_units[i].unit.gameObject);
                     _units.RemoveAt(i);
                 }
             }

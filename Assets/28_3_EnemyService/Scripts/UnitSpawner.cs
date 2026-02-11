@@ -29,13 +29,13 @@ namespace Modul_28_3
             {
                 case KeyboardComands.SpawnUnit1:
                     unit.Kill();
-                    _unitDestroyer.AddUnit(unit, KillByBool);
+                    _unitDestroyer.AddUnit(unit, () => KillByBool(unit));
                     break;
                 case KeyboardComands.SpawnUnit2:
-                    _unitDestroyer.AddUnit(unit, KillByTime);
+                    _unitDestroyer.AddUnit(unit, () => KillByTime(unit));
                     break;
                 case KeyboardComands.SpawnUnit3:
-                    _unitDestroyer.AddUnit(unit, KillByCapacity);
+                    _unitDestroyer.AddUnit(unit, () => KillByCapacity());
                     break;
                 default:
                     break;
@@ -53,7 +53,7 @@ namespace Modul_28_3
             return unit.IsDead;
         }
 
-        private bool KillByCapacity(Unit unit) => _unitDestroyer.IsOutOfCapacity();
+        private bool KillByCapacity() => _unitDestroyer.IsOutOfCapacity();
 
         private IEnumerator LifeTime(Unit unit)
         {
