@@ -523,6 +523,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4295598910039581268, guid: 5ab735bae30f99d4db74f7d983240b57,
         type: 2}
+    - target: {fileID: 1511759212820185330, guid: 6e5a9bbfe6274a64e940329cc3cadbfd,
+        type: 3}
+      propertyPath: m_AutoBraking
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2749142559529301753, guid: 6e5a9bbfe6274a64e940329cc3cadbfd,
         type: 3}
       propertyPath: m_Name
